@@ -10,6 +10,8 @@ import { ToastService } from '../toast/toast.service';
 })
 export class CartComponent implements OnInit {
 
+  cart: Array<any> = [];
+  inventory: any;
   constructor(
     private http: Http,
     private activatedRoute: ActivatedRoute,
@@ -18,6 +20,13 @@ export class CartComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.inventory = await this.loadInventoryFromJson();
+    console.log('this.inventory from ngOninit...', this.inventory);
+  }
+
+  async loadInventoryFromJson() {
+    const inventory = await this.http.get('assets/inventory.json').toPromise();
+    return inventory.json();
   }
 
 }
